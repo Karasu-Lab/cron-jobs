@@ -1,6 +1,6 @@
 # cron-jobs
 
-The scheduled-jobs worker for Karasu Lab — runs the daily cleanup of anonymous QR uploads and exposes job routes for manual triggers — running on Cloudflare Workers. Split out of [Karasu-Lab/karasu256.com](https://github.com/Karasu-Lab/karasu256.com).
+The scheduled-jobs worker for Karasu Lab — runs the daily cleanup of anonymous QR uploads and exposes job routes for manual triggers — running on Cloudflare Workers. Split out of [Karasu-Lab/Karasu-Lab](https://github.com/Karasu-Lab/Karasu-Lab).
 
 ## Required environment variables
 
