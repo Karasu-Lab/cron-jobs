@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 crons = ["0 0 * * *"]
 
 [vars]
-QR_APP_URL = "https://qr.karasu256.com"
+APP_ENV = "production"
 
 [observability]
 enabled = false

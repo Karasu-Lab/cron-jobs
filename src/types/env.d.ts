@@ -2,6 +2,7 @@ export {};
 
 declare global {
   interface Env {
+    APP_ENV: 'local' | 'production';
     DATABASE_URL: string;
     /** Base URL of qr.karasu256.com, whose own cleanup endpoint this worker triggers. */
     QR_APP_URL: string;
