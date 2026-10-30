@@ -8,10 +8,11 @@
 #
 # Pushes to main deploy the production worker and sync its secrets
 # (previously a manual `wrangler secret put`). Pushes to any other branch
-# deploy a branch worker named [branch]-cron-jobs, served at
-# [branch]-cron-jobs.karasu256.com ([branch]-[subdomain].[hostdomain]),
-# carrying only the PREVIEW_ secrets — a branch worker never receives
-# the production values.
+# create or update a preview deployment of the same single worker
+# (wrangler preview), named after the branch — the mechanism the api-auth
+# and api workers already use, so branches never split into separate
+# workers. Previews carry only the PREVIEW_ secrets, never the production
+# values.
 name: cron-jobs Deploy
 
 on:
@@ -64,11 +65,7 @@ jobs:
           node .github/scripts/worker-secrets-file.mjs apps/cron-jobs "$RUNNER_TEMP/cron-jobs-secrets.json" DATABASE_URL CRON_JOBS_API_KEY
           pnpm --filter cron-jobs exec wrangler secret bulk "$RUNNER_TEMP/cron-jobs-secrets.json"
 
-      - name: Compute the branch slug
-        if: github.ref_name != 'main'
-        run: echo "BRANCH_SLUG=$(echo '${{ github.ref_name }}' | tr -cs 'a-zA-Z0-9-' '-' | sed 's/^-*//; s/-*$//')" >> "$GITHUB_ENV"
-
-      - name: Deploy the branch worker
+      - name: Create or update the branch preview
         if: github.ref_name != 'main'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -77,4 +74,4 @@ jobs:
           CRON_JOBS_API_KEY: ${{ secrets.PREVIEW_CRON_JOBS_API_KEY }}
         run: |
           node .github/scripts/worker-secrets-file.mjs apps/cron-jobs "$RUNNER_TEMP/cron-jobs-preview-secrets.json" DATABASE_URL CRON_JOBS_API_KEY
-          pnpm --filter cron-jobs deploy -- --name "${{ env.BRANCH_SLUG }}-cron-jobs" --secrets-file "$RUNNER_TEMP/cron-jobs-preview-secrets.json" --route "${{ env.BRANCH_SLUG }}-cron-jobs.karasu256.com"
+          pnpm --filter cron-jobs preview -- --name "${{ github.ref_name }}" --secrets-file "$RUNNER_TEMP/cron-jobs-preview-secrets.json"

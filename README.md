@@ -24,6 +24,6 @@ These are synced to the production worker on every deploy to `main`.
 
 A secret left unset is skipped by the sync (this worker has no committed local defaults for them).
 
-### Branch workers
+### Branch previews
 
-Pushes to non-`main` branches deploy a branch worker named `[branch]-cron-jobs`, served at `[branch]-cron-jobs.karasu256.com`. Branch workers use the `PREVIEW_` variants of the worker secrets — `PREVIEW_DATABASE_URL`, `PREVIEW_CRON_JOBS_API_KEY` — and never receive the production values.
+Pushes to non-`main` branches create or update a preview deployment of the same single worker (`wrangler preview`), named after the branch. Previews use the `PREVIEW_` variants of the worker secrets — `PREVIEW_DATABASE_URL`, `PREVIEW_CRON_JOBS_API_KEY` — and never receive the production values.

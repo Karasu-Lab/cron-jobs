@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "wrangler dev --inspector-port 9231",
     "deploy": "wrangler deploy",
+    "preview": "wrangler preview",
     "build": "wrangler deploy --dry-run --outdir dist"
   },
   "dependencies": {
