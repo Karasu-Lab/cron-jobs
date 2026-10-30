@@ -4,7 +4,7 @@ The scheduled-jobs worker for Karasu Lab — runs the daily cleanup of anonymous
 
 ## Required environment variables
 
-The deploy workflow (`.github/workflows/cron-jobs-deploy.yml`) reads the following GitHub Actions secrets and variables. Register them on this repository under exactly these names. Values are never committed to the repository.
+The deploy workflow (`.github/workflows/cron-jobs-deploy.yml`) reads the following GitHub Actions secrets and variables, organized by GitHub Environments. The production job runs in the `production` environment and the preview job in the `preview` environment (a `development` environment also exists); register each name at repository level as the default, and override it inside an environment only where that environment needs a different value — a name an environment does not define falls back to the repository-level entry. Values are never committed to the repository.
 
 ### Deployment
 
@@ -26,4 +26,4 @@ A secret left unset is skipped by the sync (this worker has no committed local d
 
 ### Branch previews
 
-Pushes to non-`main` branches create or update a preview deployment of the same single worker (`wrangler preview`), named after the branch. Previews use the `PREVIEW_` variants of the worker secrets — `PREVIEW_DATABASE_URL`, `PREVIEW_CRON_JOBS_API_KEY` — and never receive the production values.
+Pushes to non-`main` branches create or update a preview deployment of the same single worker (`wrangler preview`), named after the branch. Previews resolve the same secret names from the `preview` environment, so they only ever receive the values defined there or at repository level — never values defined in the `production` environment.
