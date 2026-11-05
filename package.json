@@ -9,7 +9,7 @@
     "build": "wrangler deploy --dry-run --outdir dist"
   },
   "dependencies": {
-    "@Hashibutogarasu/db": "workspace:*",
+    "@karasu-lab/db": "0.1.0-9f9276e",
     "@elysiajs/cors": "^1.4.2",
     "drizzle-orm": "^0.44.0",
     "elysia": "^1.4.29",
