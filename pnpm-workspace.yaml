@@ -1,0 +1,6 @@
+allowBuilds:
+  core-js: false
+  esbuild: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - '@karasu-lab/*'
