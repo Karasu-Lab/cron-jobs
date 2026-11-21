@@ -5,8 +5,8 @@ import { resolveEnv } from './constants';
 import { jobRoutes } from './routes/jobs';
 import { scheduled } from './scheduled';
 
-const env = resolveEnv(cfEnv as Env);
+resolveEnv(cfEnv as Env);
 
-const app = new Elysia({ adapter: CloudflareAdapter }).use(jobRoutes(env)).compile();
+const app = new Elysia({ adapter: CloudflareAdapter }).use(jobRoutes()).compile();
 
 export default Object.assign(app, { scheduled });
